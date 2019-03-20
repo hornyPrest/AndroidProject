@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,13 +15,28 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private static final String PREFS = "PREFS";
+    private static final String PREFS_VALEUR = "PREFS_VALEUR";
+    private static final String PREFS_NAME = "PREFS_NAME";
+    SharedPreferences sharedPreferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +45,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        downloadData();
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null);
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
+                startActivity(intent);
+                //Snackbar.make(view, "MainActivity2", Snackbar.LENGTH_LONG).setAction("Action", null);
+                //Snackbar.make(view, "MainActivity2", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -46,13 +67,49 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         //use a linear layout manager
         layoutManager = new GridLayoutManager(this, 2);
+      //  recyclerView.setLayoutManager(layoutManager);
+        //List<String> input = new ArrayList<>();
+        //for (int i = 0; i < 100; i++) {
+        //    input.add("Prest" + i);
+        //}// define an adapter
+       // mAdapter = new MyAdapter(input);
+     //   recyclerView.setAdapter(mAdapter);
+    }
+
+    private void downloadData() {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://git.eclipse.org/r/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        Api gerritAPI = retrofit.create(Api.class);
+
+        Call<List<Change>> call = gerritAPI.loadChanges("status:open");
+        call.enqueue(new Callback<List<Change>>() {
+            @Override
+            public void onResponse(Call<List<Change>> call, Response<List<Change>> response) {
+                showList(response.body());
+            }
+
+
+            @Override
+            public void onFailure(Call<List<Change>> call, Throwable t) {
+
+            }
+        });
+    }
+    private void showList(List<Change> list) {
+        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
-        List<String> input = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            input.add("Prest" + i);
-        }// define an adapter
-        mAdapter = new MyAdapter(input);
+        mAdapter = new MyAdapter(list);
+        // recupere l'eltm
         recyclerView.setAdapter(mAdapter);
+
+
     }
 
     @Override
@@ -75,5 +132,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void liste(View view) {;
+        Intent intent = new Intent(this, MainActivity2.class);
+        startActivity(intent);
     }
 }
