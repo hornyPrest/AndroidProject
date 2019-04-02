@@ -1,13 +1,10 @@
-package com.example.myapplication;
+package com.example.myapplication.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,10 +12,13 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.myapplication.Model.Api;
+import com.example.myapplication.Model.Change;
+import com.example.myapplication.MyAdapter;
+import com.example.myapplication.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
         downloadData();
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // of the RecyclerView
         recyclerView.setHasFixedSize(true);
         //use a linear layout manager
-        layoutManager = new GridLayoutManager(this, 2);
+        layoutManager = new LinearLayoutManager(this);
       //  recyclerView.setLayoutManager(layoutManager);
         //List<String> input = new ArrayList<>();
         //for (int i = 0; i < 100; i++) {
@@ -134,8 +134,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void liste(View view) {;
-        Intent intent = new Intent(this, MainActivity2.class);
-        startActivity(intent);
+    public void GoToList(View view){
+        Intent goToListIntent = new Intent(this,MainActivity2.class);
+        startActivity(goToListIntent);
+
+
     }
+
+
 }
