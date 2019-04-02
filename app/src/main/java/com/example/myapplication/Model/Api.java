@@ -1,4 +1,6 @@
-package com.example.myapplication;
+package com.example.myapplication.Model;
+
+import com.example.myapplication.Model.Change;
 
 import java.util.List;
 

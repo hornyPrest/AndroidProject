@@ -2,12 +2,18 @@ package com.example.myapplication;
 
 import java.util.List;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
+
+import com.example.myapplication.Model.Change;
+import com.example.myapplication.view.MainActivity2;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<Change> values;
@@ -15,7 +21,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView txtName;
         public TextView txtHobby;
@@ -26,6 +32,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             layout = v;
             txtName = (TextView) v.findViewById(R.id.firstLine);
             txtHobby = (TextView) v.findViewById(R.id.secondLine);
+        }
+
+        public void bind(ContentItem contentItem, AdapterView.OnItemClickListener listener) {
         }
     }
 
@@ -68,7 +77,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.txtName.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                remove(position);
+                Context context= v.getContext();
+
+                Intent intent = new Intent(context, MainActivity2.class);
+
+                //intent.putExtra(EXTRA_MESSAGE, message);
+                context.startActivity(intent);
             }
         });
 
