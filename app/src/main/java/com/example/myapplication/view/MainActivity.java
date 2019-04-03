@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "PREFS_NAME";
     SharedPreferences sharedPreferences;
 
-
+    //page principale
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
                 startActivity(intent);
-                //Snackbar.make(view, "MainActivity2", Snackbar.LENGTH_LONG).setAction("Action", null);
-                //Snackbar.make(view, "MainActivity2", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -108,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MyAdapter(list);
         // recupere l'eltm
         recyclerView.setAdapter(mAdapter);
+
 
 
     }

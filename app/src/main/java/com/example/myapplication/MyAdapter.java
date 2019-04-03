@@ -14,9 +14,12 @@ import android.widget.TextView;
 
 import com.example.myapplication.Model.Change;
 import com.example.myapplication.view.MainActivity2;
+import com.example.myapplication.view.details;
+import com.google.gson.Gson;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<Change> values;
+    private Object item;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -79,9 +82,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             public void onClick(View v) {
                 Context context= v.getContext();
 
-                Intent intent = new Intent(context, MainActivity2.class);
-
-                //intent.putExtra(EXTRA_MESSAGE, message);
+                Intent intent = new Intent(context, details.class);
+                Gson gson = new Gson();
+                intent.putExtra("change_key" ,gson.toJson(item));
                 context.startActivity(intent);
             }
         });
