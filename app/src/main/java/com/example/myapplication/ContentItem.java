@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.List;
 
 class ContentItem {
-   ;
+
     private List<ContentItem> items;
     private AdapterView.OnItemClickListener listener;
 

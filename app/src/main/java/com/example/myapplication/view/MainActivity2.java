@@ -10,6 +10,8 @@ import com.example.myapplication.view.MainActivity;
 
 public class MainActivity2 extends AppCompatActivity {
 
+    //page d'intro
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
